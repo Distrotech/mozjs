@@ -141,6 +141,19 @@
 /* Note: Only O32 ABI is tested, so we enable it for O32 ABI for now.  */
 #if (defined(mips) || defined(__mips__) || defined(MIPS) || defined(_MIPS_)) \
     && defined(_ABIO32)
+#ifdef _ABI64
+#ifdef ENABLE_ASSEMBLER
+#undef ENABLE_ASSEMBLER
+#endif
+#ifdef ENABLE_JIT
+#undef ENABLE_JIT
+#endif
+#ifdef ENABLE_YARR_JIT
+#undef ENABLE_YARR_JIT
+#endif
+#define WTF_CPU_MIPS64		1
+#endif
+
 #define WTF_CPU_MIPS 1
 #if defined(__MIPSEB__)
 #define WTF_CPU_BIG_ENDIAN 1
@@ -1010,7 +1023,7 @@
     || WTF_CPU_ALPHA \
     || WTF_CPU_SPARC64 \
     || WTF_CPU_S390X \
-    || WTF_CPU_PPC64
+    || WTF_CPU_PPC64 || WTF_CPU_MIPS64
 #define WTF_USE_JSVALUE64 1
 #else
 #define WTF_USE_JSVALUE32_64 1
